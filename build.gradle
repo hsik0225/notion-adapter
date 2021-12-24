@@ -30,13 +30,13 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
+	// Test
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
 	// DBMS
 	implementation 'org.flywaydb:flyway-core'
 	runtimeOnly 'mysql:mysql-connector-java'
 	testRuntimeOnly 'com.h2database:h2'
-
-	// Test
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 test {
