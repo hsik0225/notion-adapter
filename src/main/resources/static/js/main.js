@@ -11,8 +11,6 @@ function decideToEditor() {
     } else {
         showIntelliJToNotionForm();
     }
-
-    showConvertButton();
 }
 
 function showNotionToIntelliJForm() {
@@ -27,24 +25,13 @@ function showNotionToIntelliJForm() {
 
 function showIntelliJToNotionForm() {
     showForm("Notion",
-        `<div id="text">
-            <label>
-                <textarea id="text" name="text" cols="80" rows="15" wrap="off" onFocus="this.value='';this.onfocus=null;">
+        `<textarea id="text" name="text" cols="80" rows="15" wrap="off" onFocus="this.value='';this.onfocus=null;">
                     Enter your text...
-                </textarea>
-            </label>
-        </div>`);
+              </textarea>`);
 }
 
 function showForm(toEditors, form) {
     $("#to-editor").html("To: " + toEditors);
-    $("#content").append(form);
+    $("#content").append(form)
+        .append(`<button id="convert-button" onclick="to${toEditors}()">Convert</button>`);
 }
-
-function showConvertButton() {
-    $("#content").append(
-        `<div id="convert-button">
-            <button class="convert-button" id="to-notion-button">Convert</button>
-        </div>`);
-}
-
