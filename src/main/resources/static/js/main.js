@@ -25,9 +25,9 @@ function showNotionToIntelliJForm() {
 
 function showIntelliJToNotionForm() {
     showForm("Notion",
-        `<textarea id="text" name="text" cols="80" rows="15" wrap="off" onFocus="this.value='';this.onfocus=null;">
-                    Enter your text...
-              </textarea>`);
+        `<textarea id="text" name="text" cols="80" rows="15" wrap="off" onFocus="this.value='';this.onfocus=null;">Enter your text...</textarea>`);
+
+    $("#content").append(`<textarea id="result" name="text" cols="80" rows="15" wrap="off"></textarea>`)
 }
 
 function showForm(toEditors, form) {
