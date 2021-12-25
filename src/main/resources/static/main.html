@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="kr">
+    <head>
+        <meta charset="UTF-8">
+        <title>Notion Adapter</title>
+    </head>
+    <body>
+        <div id="main">
+            <div id="select-editor">
+                <label class="editor" style="display:inline;">From:
+                    <select id="from-editor" name="from-editor">
+                        <option disabled selected value>Select an editor</option>
+                        <option value="notion">Notion</option>
+                        <option value="intellij">IntelliJ</option>
+                    </select>
+                </label>
+                <label id="to-editor" style="display:inline;padding:0 0 0px 40px; border:0px solid;"></label>
+            </div>
+            <div id="content">
+
+            </div>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+        <script src="js/main.js"></script>
+    </body>
+</html>
