@@ -1,5 +1,8 @@
 package com.hyeonsik.notionadapter.controller;
 
+import java.net.URI;
+
+import com.hyeonsik.notionadapter.core.ServerUri;
 import com.hyeonsik.notionadapter.service.OAuthService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +16,8 @@ import org.junit.jupiter.api.Test;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest
 class UserControllerTest {
@@ -26,6 +28,9 @@ class UserControllerTest {
     @MockBean
     private OAuthService oAuthService;
 
+    @MockBean
+    private ServerUri serverUri;
+
     @Test
     @DisplayName("로그인 요청 및 응답 테스트")
     void loginTest() throws Exception {
@@ -34,13 +39,22 @@ class UserControllerTest {
         final String jws = "a.b.c";
         given(oAuthService.login(any())).willReturn(jws);
 
+        final String domain = "localhost";
+        final URI redirectUrl = URI.create("http://localhost:8080");
+        given(serverUri.getDomain()).willReturn(domain);
+        given(serverUri.getUri()).willReturn(redirectUrl);
+
         // when
         final ResultActions result = mockMvc.perform(
-                post("/login")
+                get("/login")
                         .param("code", "test-code"));
 
         // then
-        result.andExpect(status().isOk())
-              .andExpect(content().string(jws));
+        String cookieName = "accessToken";
+        result.andExpect(status().isFound())
+              .andExpect(redirectedUrl(redirectUrl.toString()))
+              .andExpect(cookie().value(cookieName, jws))
+              .andExpect(cookie().domain(cookieName, domain))
+              .andExpect(cookie().maxAge(cookieName, 60));
     }
 }

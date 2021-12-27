@@ -1,4 +1,4 @@
-package com.hyeonsik.notionadapter.dto;
+package com.hyeonsik.notionadapter.core;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @ConfigurationProperties(prefix = "oauth")
 @ConstructorBinding
-public class OAuthProperty {
+public class OAuthProperties {
 
     private final String clientId;
     private final String clientSecrets;

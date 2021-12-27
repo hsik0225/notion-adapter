@@ -3,9 +3,9 @@ package com.hyeonsik.notionadapter.service;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import com.hyeonsik.notionadapter.core.OAuthProperties;
 import com.hyeonsik.notionadapter.dto.AccessTokenRequest;
 import com.hyeonsik.notionadapter.dto.AccessTokenResponse;
-import com.hyeonsik.notionadapter.dto.OAuthProperty;
 
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -17,9 +17,8 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class OAuthService {
 
-    private final OAuthProperty oAuthProperty;
+    private final OAuthProperties oAuthProperties;
     private final JwtProvider jwtProvider;
-    private final WebClient webClient;
 
     public String login(final AccessTokenRequest accessTokenRequest) {
         final AccessTokenResponse accessTokenResponse = requestAccessToken(accessTokenRequest);
@@ -28,10 +27,12 @@ public class OAuthService {
     }
 
     private AccessTokenResponse requestAccessToken(AccessTokenRequest accessTokenRequest) {
-        return webClient.post()
-                        .uri(oAuthProperty.getTokenUri())
+        return WebClient.create()
+                        .post()
+                        .uri(oAuthProperties.getTokenUri())
                         .headers(httpHeaders -> {
-                            httpHeaders.setBasicAuth(oAuthProperty.getClientId(), oAuthProperty.getClientSecrets());
+                            httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+                            httpHeaders.setBasicAuth(oAuthProperties.getClientId(), oAuthProperties.getClientSecrets());
                             httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
                             httpHeaders.setAcceptCharset(List.of(StandardCharsets.UTF_8));
                         })
