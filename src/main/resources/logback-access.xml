@@ -1,0 +1,10 @@
+<configuration scan="true" scanPeriod="10 seconds">
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+                %n[Time - %t{yyyy-MM-dd} %t{HH:mm:ss}]%n======%n[REQUEST]%n%fullRequest[RESPONSE]%n%fullResponse
+            </pattern>
+        </encoder>
+    </appender>
+    <appender-ref ref="CONSOLE"/>
+</configuration>

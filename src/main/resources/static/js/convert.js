@@ -27,7 +27,7 @@ function toNotion() {
     }
 
     $("#result").replaceWith(
-              `<textarea id="result" name="text" cols="80" rows="15" wrap="off">${content}</textarea>`);
+        `<textarea id="result" name="text" cols="80" rows="15" wrap="off">${content}</textarea>`);
 
     $CONVERT_BUTTON.replaceWith(`<button id="convert-button" onclick="toNotion()">Convert</button>`);
 }
