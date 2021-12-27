@@ -3,16 +3,17 @@ package com.hyeonsik.notionadapter.core;
 import java.net.URI;
 
 import org.springframework.boot.autoconfigure.web.ServerProperties;
-import org.springframework.stereotype.Component;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-@Component
-public class ServerUri {
+@ConfigurationProperties(prefix = "server")
+public class ServerConfiguration {
 
     private final ServerProperties serverProperties;
+    private final String domain = "localhost";
 
     public URI getUri() {
         return UriComponentsBuilder.newInstance()
@@ -24,6 +25,6 @@ public class ServerUri {
     }
 
     public String getDomain() {
-        return serverProperties.getAddress().getHostName();
+        return domain;
     }
 }

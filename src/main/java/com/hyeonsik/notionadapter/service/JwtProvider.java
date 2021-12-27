@@ -3,7 +3,6 @@ package com.hyeonsik.notionadapter.service;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.util.Date;
-import java.util.Random;
 import javax.crypto.SecretKey;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
