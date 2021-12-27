@@ -98,7 +98,9 @@ jacocoTestReport {
 				files(classDirectories.files.collect {
 					fileTree(dir: it,
 							excludes: [
-									'com/hyeonsik/notionadapter/*Applicaiton'
+									'com/hyeonsik/notionadapter/*Application.class',
+									'com/hyeonsik/notionadapter/dto/**',
+									'com/hyeonsik/notionadapter/exception/**',
 							]
 					)
 				})
@@ -126,6 +128,8 @@ jacocoTestCoverageVerification {
 
 			excludes = [
 					'com.hyeonsik.notionadapter.*Application',
+					'com.hyeonsik.notionadapter.dto.*',
+					'com.hyeonsik.notionadapter.exception.*',
 			]
 		}
 	}
