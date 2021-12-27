@@ -1,6 +1,7 @@
 package com.hyeonsik.notionadapter.service;
 
 import java.nio.charset.StandardCharsets;
+import java.security.SecureRandom;
 import java.util.Date;
 import java.util.Random;
 import javax.crypto.SecretKey;
@@ -21,6 +22,8 @@ public class JwtProvider {
 
     static final SecretKey KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
+    private static final SecureRandom RANDOM = new SecureRandom();
+
     private final long accessTokenExpiration;
     private final long refreshTokenExpiration;
 
@@ -39,7 +42,7 @@ public class JwtProvider {
 
     public String createRefreshToken() {
         byte[] array = new byte[7];
-        new Random().nextBytes(array);
+        RANDOM.nextBytes(array);
         String refreshToken = new String(array, StandardCharsets.UTF_8);
         return createToken(refreshToken, refreshTokenExpiration);
     }
