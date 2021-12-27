@@ -13,7 +13,6 @@ import io.jsonwebtoken.security.SignatureException;
 
 import org.assertj.core.api.ThrowableAssert;
 
-import static com.hyeonsik.notionadapter.service.JwtProvider.KEY;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -38,7 +37,7 @@ class JwtProviderTest {
             final String accessToken = jwtProvider.createAccessToken("test");
 
             // when
-            ThrowableAssert.ThrowingCallable callable = () -> jwtProvider.validateToken(accessToken);
+            ThrowableAssert.ThrowingCallable callable = () -> jwtProvider.parseClaims(accessToken, "test", String.class);
 
             // then
             assertThatThrownBy(callable).isExactlyInstanceOf(ExpiredJwtException.class);
@@ -50,24 +49,16 @@ class JwtProviderTest {
 
             // given
             final String jws = Jwts.builder()
+                                   .claim("test", "test")
                                    .signWith(Keys.secretKeyFor(SignatureAlgorithm.HS256))
                                    .compact();
 
             // when
-            ThrowableAssert.ThrowingCallable callable = () -> jwtProvider.validateToken(jws);
+            ThrowableAssert.ThrowingCallable callable = () -> jwtProvider.parseClaims(jws, "test", String.class);
 
             // then
             assertThatThrownBy(callable).isExactlyInstanceOf(SignatureException.class);
         }
-    }
-
-    private static <T> T parseClaim(String jws, String claim, Class<T> requiredType) {
-        return Jwts.parserBuilder()
-                   .setSigningKey(KEY)
-                   .build()
-                   .parseClaimsJws(jws)
-                   .getBody()
-                   .get(claim, requiredType);
     }
 
     @Test
@@ -81,7 +72,8 @@ class JwtProviderTest {
         final String accessToken = jwtProvider.createAccessToken(token);
 
         // then
-        assertThat(parseClaim(accessToken, "token", String.class)).isEqualTo("test");
+        final String claim = jwtProvider.parseClaims(accessToken, "token", String.class);
+        assertThat(claim).isEqualTo("test");
     }
 
     @Test
@@ -92,6 +84,7 @@ class JwtProviderTest {
         final String accessToken = jwtProvider.createRefreshToken();
 
         // then
-        assertThat(parseClaim(accessToken, "token", String.class)).isNotNull();
+        final String claim = jwtProvider.parseClaims(accessToken, "token", String.class);
+        assertThat(claim).isNotBlank();
     }
 }

@@ -8,6 +8,7 @@ import javax.crypto.SecretKey;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
 
+import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -19,9 +20,11 @@ import lombok.RequiredArgsConstructor;
 @ConstructorBinding
 public class JwtProvider {
 
-    static final SecretKey KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-
+    private static final SecretKey KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     private static final SecureRandom RANDOM = new SecureRandom();
+    static final JwtParser JWT_PARSER = Jwts.parserBuilder()
+                                            .setSigningKey(KEY)
+                                            .build();
 
     private final long accessTokenExpiration;
     private final long refreshTokenExpiration;
@@ -46,10 +49,9 @@ public class JwtProvider {
         return createToken(refreshToken, refreshTokenExpiration);
     }
 
-    public void validateToken(String jws) {
-        Jwts.parserBuilder()
-            .setSigningKey(KEY)
-            .build()
-            .parseClaimsJws(jws);
+    public <T> T parseClaims(String jws, String claimName, Class<T> requiredType) {
+        return JWT_PARSER.parseClaimsJws(jws)
+                         .getBody()
+                         .get(claimName, requiredType);
     }
 }
