@@ -1,6 +1,5 @@
 package com.hyeonsik.notionadapter.service;
 
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import com.hyeonsik.notionadapter.core.OAuthProperties;
@@ -31,10 +30,8 @@ public class OAuthService {
                         .post()
                         .uri(oAuthProperties.getTokenUri())
                         .headers(httpHeaders -> {
-                            httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
                             httpHeaders.setBasicAuth(oAuthProperties.getClientId(), oAuthProperties.getClientSecrets());
                             httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
-                            httpHeaders.setAcceptCharset(List.of(StandardCharsets.UTF_8));
                         })
                         .bodyValue(accessTokenRequest.getBodyValue())
                         .retrieve()
