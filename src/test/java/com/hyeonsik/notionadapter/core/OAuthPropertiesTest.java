@@ -42,6 +42,6 @@ class OAuthPropertiesTest extends CoreTest {
         final String tokenUri = oAuthProperties.getTokenUri();
 
         // then
-        assertThat(tokenUri).isEqualTo("https://github.com/login/oauth/access_token");
+        assertThat(tokenUri).isEqualTo("http://localhost:8081/fake/login/oauth/access_token");
     }
 }

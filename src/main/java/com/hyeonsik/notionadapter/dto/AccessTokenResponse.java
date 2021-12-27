@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.hyeonsik.notionadapter.exception.OAuthException;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -26,6 +27,15 @@ public class AccessTokenResponse {
 
     @JsonProperty("error_description")
     private String errorDescription;
+
+    @Builder
+    public AccessTokenResponse(String accessToken, String scope, String tokenType, String error, String errorDescription) {
+        this.accessToken = accessToken;
+        this.scope = scope;
+        this.tokenType = tokenType;
+        this.error = error;
+        this.errorDescription = errorDescription;
+    }
 
     public void validateToken() {
         if (Objects.isNull(accessToken)) {
