@@ -36,9 +36,7 @@ jobs:
       - name: Cache SonarCloud packages
         uses: actions/cache@v2
         with:
-
-          # cache files are sotred in ~/.sonar/cache
-          path: ~/.sonar/cache
+          path: ~/.sonar/cache # cache files are sotred in ~/.sonar/cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
 
