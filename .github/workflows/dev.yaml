@@ -51,7 +51,7 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: Build and analyze
-        run: ./gradlew sonarqube -Dsonar.login=$SONAR_TOKEN --info
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: ./gradlew sonarqube -Dsonar.login=$SONAR_TOKEN --info
