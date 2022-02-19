@@ -52,10 +52,10 @@ jobs:
 
       - name: view the PR Information number
         run: |
-          echo "GITHUB_REPOSITORY = ${{ github.event.pull_request.repository.full_name }}"
+          echo "GITHUB_REPOSITORY = ${{ github.event.repository.full_name }}"
           echo "PR number = ${{ github.event.pull_request.number }}"
-          echo "Base Branch = ${{ github.event.pull_request.pull_request.head.ref }}"
-          echo "Head Branch = ${{ github.event.pull_request.pull_request.base.ref }}"
+          echo "Base Branch = ${{ github.event.pull_request.head.ref }}"
+          echo "Head Branch = ${{ github.event.pull_request.base.ref }}"
 
       - name: Build and analyze
         env:
