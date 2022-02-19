@@ -54,17 +54,17 @@ jobs:
         run: |
           echo "GITHUB_REPOSITORY = ${{ github.event.repository.full_name }}"
           echo "PR number = ${{ github.event.pull_request.number }}"
-          echo "Base Branch = ${{ github.event.pull_request.head.ref }}"
-          echo "Head Branch = ${{ github.event.pull_request.base.ref }}"
+          echo "Base Branch = ${{ github.event.pull_request.base.ref }}"
+          echo "Head Branch = ${{ github.event.pull_request.head.ref }}"
 
       - name: Build and analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_REPOSITORY: ${{ github.event.pull_request.repository.full_name }}
+          GITHUB_REPOSITORY: $${{ github.event.repository.full_name }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
-          BASE_BRANCH: ${{ github.event.pull_request.pull_request.head.ref }}
-          HEAD_BRANCH: ${{ github.event.pull_request.pull_request.base.ref }}
+          BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
+          HEAD_BRANCH: ${{ github.event.pull_request.head.ref }}
         run: |
           ./gradlew --info
             check \
