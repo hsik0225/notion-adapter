@@ -61,13 +61,12 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_REPOSITORY: $${{ github.event.repository.full_name }}
+          GITHUB_REPOSITORY: ${{ github.event.repository.full_name }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
           BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
           HEAD_BRANCH: ${{ github.event.pull_request.head.ref }}
         run: |
-          ./gradlew --info
-            check \
+          ./gradlew --info check \
             sonarqube \
               -Dsonar.login=$SONAR_TOKEN \
               -Dsonar.organization=seed \
